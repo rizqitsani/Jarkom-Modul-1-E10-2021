@@ -84,32 +84,71 @@ Setelah login, menjawab pertanyaan konfigurasi pengkabelan T568B
 ## Soal 6
 
 ### Soal
+Cari username dan password ketika melakukan login ke FTP Server!
 
 ### Jawaban
+Menggunakan filter ftp.request lalu melihat request USER dan PASS yang respondnya logged on
+![image](https://user-images.githubusercontent.com/77628684/134760796-82af7163-5861-4b49-a108-eaca82f5b2d0.png)
 
 ## Soal 7
 
 ### Soal
+Ada 500 file zip yang disimpan ke FTP Server dengan nama 0.zip, 1.zip, 2.zip, ...,
+499.zip. Simpan dan Buka file pdf tersebut. (Hint = nama pdf-nya "Real.pdf")
 
 ### Jawaban
+Menggunakan display filter “frame contains “Real.pdf” “
+![image](https://user-images.githubusercontent.com/77628684/134760809-a0dc2b5f-a284-4f88-93a7-3f74655e5623.png)
+Lalu ikuti tcp stream dari paket dan simpan dalam bentuk RAW kedalam file “real.pdf”
+![image](https://user-images.githubusercontent.com/77628684/134760812-c26adc3e-e9f7-4a7e-9820-53cca37b04ce.png)
+![image](https://user-images.githubusercontent.com/77628684/134760814-e12c1b14-ec73-4548-8674-7955f3148bef.png)
 
 ## Soal 8
 
 ### Soal
+Cari paket yang menunjukan pengambilan file dari FTP tersebut!
 
 ### Jawaban
+Tidak ditemukan paket menggunakan filter ftp.request.command == RETR
 
 ## Soal 9
 
 ### Soal
+Dari paket-paket yang menuju FTP terdapat indikasi penyimpanan beberapa file. Salah
+satunya adalah sebuah file berisi data rahasia dengan nama "secret.zip". Simpan dan buka
+file tersebut!
 
 ### Jawaban
+Ketik di display ftp-data.command contains secret.zip
+![image](https://user-images.githubusercontent.com/77628684/134760834-3914ed84-62ec-41b9-8b1b-90765613671d.png)
+Klik kanan yang memiliki info STOR secret.zip lalu pencet follow tcp streams
+![image](https://user-images.githubusercontent.com/77628684/134760837-536e66a8-bf45-4e6f-8ca3-810d49866323.png)
+
+Ganti data dari ASCII menjadi raw lalu save as secret.zip. Isi dari zip tersebut adalah file
+wanted.pdf passwordnya didapat dari nomor 10
+![image](https://user-images.githubusercontent.com/77628684/134760841-a879228e-ad8a-4010-a8b1-ea3dd63a6a08.png)
 
 ## Soal 10
 
 ### Soal
+Selain itu terdapat "history.txt" yang kemungkinan berisi history bash server tersebut!
+Gunakan isi dari "history.txt" untuk menemukan password untuk membuka file rahasia
+yang ada di "secret.zip"!
 
 ### Jawaban
+Ketik ftp-data contains history.txt
+![image](https://user-images.githubusercontent.com/77628684/134760853-71d967a1-4957-4569-8eec-e1e84d0fa877.png)
+Klik kanan follow stream pada stor history.txt
+![image](https://user-images.githubusercontent.com/77628684/134760860-aa5393b8-05de-400b-b94f-93bdb1059a5f.png)
+Password secret.zip ada pada $key yang valuenya =”$(tail -1 bukanapaapa.txt)” disini
+kita cari bukanapaapa.txt dengan display filter ftp-data.command contains
+bukanapaapa.txt
+![image](https://user-images.githubusercontent.com/77628684/134760884-85dc39d7-fb45-4dc6-8d17-2b0a439d95fb.png)
+lalu akan dapat STOR bukanapaapa.txt klik kanan follow tcp stream
+![image](https://user-images.githubusercontent.com/77628684/134760896-69b25895-92b3-4ec9-9fd0-4d10cd80f5a5.png)
+tail -1 berarti mengambil baris terakhir karena hanya 1 baris maka password untuk
+secret.zip adalah “d1b1langbukanapaapajugagapercaya”
+
 
 ## Soal 11
 
